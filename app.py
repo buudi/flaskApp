@@ -20,9 +20,8 @@ def index():
     # session.permanent = True
     form = FormThingy()
     if form.validate_on_submit():
-        namePrinted = form.name.data
+        session['name'] = form.name.data
         form.name.data = '' 
-        session['name'] = namePrinted
         return redirect(url_for('welcome'))
     else:
         return render_template('index.html',namePrinted=namePrinted,form=form)
