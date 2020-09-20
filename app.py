@@ -14,6 +14,7 @@ class FormThingy(FlaskForm):
 
 @app.route('/',methods=['GET','POST'])
 def index(): 
+    session['name'] = None
     global form
     global namePrinted
     namePrinted = 'stranger'
@@ -29,4 +30,7 @@ def index():
 
 @app.route('/welcome')
 def welcome():
+    name = session.get('name')
+    if not name:
+        return redirect(url_for('index'))
     return render_template('index.html',form=form,namePrinted=session.get('name'))
