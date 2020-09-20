@@ -6,7 +6,7 @@ from datetime import timedelta
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'jajaja'
-# app.permanent_session_lifetime = timedelta(seconds=5)
+app.permanent_session_lifetime = timedelta(seconds=5)
 
 class FormThingy(FlaskForm):
     name = StringField('name',validators=[DataRequired()])
@@ -17,11 +17,11 @@ def index():
     global form
     global namePrinted
     namePrinted = 'stranger'
-    # session.permanent = True
+    session.permanent = True
     form = FormThingy()
     if form.validate_on_submit():
         session['name'] = form.name.data
-        form.name.data = '' 
+        form.name.data = ''
         return redirect(url_for('welcome'))
     else:
         return render_template('index.html',namePrinted=namePrinted,form=form)
@@ -30,6 +30,3 @@ def index():
 @app.route('/welcome')
 def welcome():
     return render_template('index.html',form=form,namePrinted=session.get('name'))
-
-if __name__ == '__main__' :
-    app.run()
